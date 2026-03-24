@@ -21,7 +21,10 @@ import easyocr
 from paddleocr import PaddleOCR
 reader = easyocr.Reader(['en'])
 paddle_ocr = PaddleOCR(
-    lang='en',  # other lang also available
+    lang='en',
+    use_angle_cls=False,
+    use_gpu=True,
+    show_log=False,
 )
 import time
 import base64

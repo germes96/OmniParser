@@ -24,7 +24,7 @@
 - [2024/10] Both Interactive Region Detection Model and Icon functional description model are released! [Hugginface models](https://huggingface.co/microsoft/OmniParser)
 - [2024/09] OmniParser achieves the best performance on [Windows Agent Arena](https://microsoft.github.io/WindowsAgentArena/)! 
 
-## Install 
+## Install
 First clone the repo, and then install environment:
 ```python
 cd OmniParser
@@ -32,6 +32,15 @@ conda create -n "omni" python==3.12
 conda activate omni
 pip install -r requirements.txt
 ```
+
+### PyTorch CUDA Compatibility
+PyTorch must be installed with a CUDA version that matches your NVIDIA driver. Check your driver's CUDA version with `nvidia-smi`, then install the appropriate PyTorch build. For example, if your driver supports CUDA 12.7 or lower:
+```bash
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+```
+
+### PaddleOCR Compatibility
+This project requires **PaddleOCR 2.7.x**. PaddleOCR 3.x introduced breaking API changes (removed `cls`/`det`/`rec` keyword arguments, redesigned `predict()` method) and is not yet supported. The `requirements.txt` pins `paddleocr>=2.7,<3.0` to avoid these issues.
 
 Ensure you have the V2 weights downloaded in weights folder (ensure caption weights folder is called icon_caption_florence). If not download them with:
 ```
