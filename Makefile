@@ -40,7 +40,12 @@ weights: check-hf ## Download model weights from HuggingFace
 	fi
 	@echo "Weights downloaded to $(WEIGHTS_DIR)/"
 
-run: ## Run the Gradio demo
+run: ## Run the Gradio demo (auto-creates env if missing)
+	@if ! conda env list | grep -q "^$(CONDA_ENV) "; then \
+		echo "Conda env '$(CONDA_ENV)' not found. Creating..."; \
+		conda create -n $(CONDA_ENV) python==$(PYTHON_VERSION) -y; \
+		$(CONDA_ACTIVATE) && pip install -r requirements.txt; \
+	fi
 	$(CONDA_ACTIVATE) && python gradio_demo.py
 
 all: install weights ## Full setup: create env, install deps, download weights
