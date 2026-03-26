@@ -24,10 +24,6 @@ pip install ninja packaging
 echo "⚡ Installing flash-attn..."
 pip install flash_attn==2.5.8 --no-build-isolation
 
-
-# Source conda
-source "$INSTALL_PATH/etc/profile.d/conda.sh"
-
 # Initialize conda for bash (adds required shell functions)
 conda init bash
 
