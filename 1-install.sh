@@ -18,6 +18,9 @@ source "$HOME/anaconda3/etc/profile.d/conda.sh"
 # Install Hugging Face CLI
 curl -LsSf https://hf.co/cli/install.sh | bash
 
+# Install Claude Code
+curl -fsSL https://claude.ai/install.sh | bash
+
 source "$HOME/anaconda3/etc/profile.d/conda.sh"
 
 echo "Installation complete."
