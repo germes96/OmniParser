@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(nvidia-smi:*)",
+      "Bash(lsof -ti:7861 -ti:7860)",
+      "Bash(xargs -r kill -9)",
+      "Bash(gh search:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(eval '$\\(conda shell.bash hook 2>/dev/null\\)')",
+      "Bash(conda activate:*)",
+      "Bash(pip show:*)",
+      "Bash(pip freeze:*)"
+    ]
+  }
+}
