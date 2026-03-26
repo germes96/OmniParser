@@ -21,6 +21,10 @@ curl -LsSf https://hf.co/cli/install.sh | bash
 # Install Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
 
+# Install Vim
+apt update
+apt install -y vim
+
 source "$HOME/anaconda3/etc/profile.d/conda.sh"
 
 echo "Installation complete."
