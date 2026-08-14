@@ -3,11 +3,9 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-source "$HOME/anaconda3/etc/profile.d/conda.sh"
-
-echo "Creating conda environment..."
-conda create -n omni310 python=3.10 -y
-conda activate omni310
+echo "Creating virtualenv..."
+python3 -m venv "$SCRIPT_DIR/.venv"
+source "$SCRIPT_DIR/.venv/bin/activate"
 
 echo "Installing PyTorch..."
 pip install torch==2.2.2 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
