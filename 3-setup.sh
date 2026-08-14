@@ -14,7 +14,7 @@ echo "Installing dependencies..."
 pip install -r "$SCRIPT_DIR/requirements.txt"
 
 echo "Installing build tools..."
-pip install ninja packaging
+pip install ninja packaging wheel
 
 echo "Installing flash-attn..."
 pip install flash_attn==2.5.8 --no-build-isolation
