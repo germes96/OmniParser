@@ -4,8 +4,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 LOG_FILE="$SCRIPT_DIR/server.log"
 
-source "$HOME/anaconda3/etc/profile.d/conda.sh"
-conda activate omni310
+source "$SCRIPT_DIR/.venv/bin/activate"
 
 case "${1:-start}" in
   start)
