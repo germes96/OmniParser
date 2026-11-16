@@ -12,7 +12,7 @@ case "${1:-start}" in
     nohup python -m omnitool.omniparserserver.omniparserserver \
       --port 7860 \
       --device cuda \
-      --som_model_path "$SCRIPT_DIR/weights/icon_detect/model.pt" \
+      --som_model_path "$SCRIPT_DIR/weights/icon_detect_v3/model.pt" \
       --caption_model_path "$SCRIPT_DIR/weights/icon_caption_florence" \
       > "$LOG_FILE" 2>&1 &
     echo $! > "$SCRIPT_DIR/server.pid"
