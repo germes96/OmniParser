@@ -14,6 +14,15 @@ class Omniparser(object):
         print('Omniparser initialized!!!')
 
     def parse(self, image_base64: str, box_threshold: float = None, iou_threshold: float = 0.7, use_paddleocr: bool = False, imgsz: int = 640):
+        labled_img_base64, content, _ = self.parse_with_timings(image_base64, box_threshold, iou_threshold, use_paddleocr, imgsz)
+        return labled_img_base64, content
+
+    def parse_with_timings(self, image_base64: str, box_threshold: float = None, iou_threshold: float = 0.7, use_paddleocr: bool = False, imgsz: int = 640, return_image: bool = True):
+        """Parse a screenshot. Returns (labelled JPEG base64 or None, elements, per-phase seconds).
+
+        return_image=False skips drawing and encoding the labelled image; the
+        element list (order = label ids) is unchanged.
+        """
         import time
 
         if box_threshold is None:
@@ -41,15 +50,17 @@ class Omniparser(object):
         print(f'[timing] OCR: {t_ocr:.3f}s')
 
         t2 = time.time()
-        dino_labled_img, label_coordinates, parsed_content_list = get_som_labeled_img(image, self.som_model, BOX_TRESHOLD=box_threshold, output_coord_in_ratio=True, ocr_bbox=ocr_bbox, draw_bbox_config=draw_bbox_config, caption_model_processor=self.caption_model_processor, ocr_text=text, use_local_semantics=True, iou_threshold=iou_threshold, scale_img=False, batch_size=128, imgsz=imgsz)
+        dino_labled_img, label_coordinates, parsed_content_list = get_som_labeled_img(image, self.som_model, BOX_TRESHOLD=box_threshold, output_coord_in_ratio=True, ocr_bbox=ocr_bbox, draw_bbox_config=draw_bbox_config, caption_model_processor=self.caption_model_processor, ocr_text=text, use_local_semantics=True, iou_threshold=iou_threshold, scale_img=False, batch_size=128, imgsz=imgsz, draw=return_image)
         t_detect_caption = time.time() - t2
         print(f'[timing] detection + captioning: {t_detect_caption:.3f}s')
 
         # Encode PIL Image to base64 string for JSON serialization
         t3 = time.time()
-        buffered = io.BytesIO()
-        dino_labled_img.save(buffered, format="JPEG", quality=85)
-        dino_labled_img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+        dino_labled_img_base64 = None
+        if return_image:
+            buffered = io.BytesIO()
+            dino_labled_img.save(buffered, format="JPEG", quality=85)
+            dino_labled_img_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
         t_encode = time.time() - t3
         print(f'[timing] image encode: {t_encode:.3f}s')
 
@@ -67,4 +78,5 @@ class Omniparser(object):
         t_total = time.time() - t0
         print(f'[timing] TOTAL: {t_total:.3f}s (decode: {t_decode:.3f}s, ocr: {t_ocr:.3f}s, detect+caption: {t_detect_caption:.3f}s, encode: {t_encode:.3f}s)')
 
-        return dino_labled_img_base64, serializable_content
+        timings = {'decode': t_decode, 'ocr': t_ocr, 'detect_caption_draw': t_detect_caption, 'encode': t_encode, 'total': t_total}
+        return dino_labled_img_base64, serializable_content, timings
