@@ -18,6 +18,8 @@ numpy==1.26.4
 opencv-python-headless==4.11.0.86
 
 gradio==6.9.0
+# WebSocket support for uvicorn (/ws/parse); uvicorn ships none by default.
+websockets==15.0.1
 dill==0.4.1
 accelerate==1.13.0
 timm==1.0.26
